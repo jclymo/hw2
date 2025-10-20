@@ -57,8 +57,8 @@ def parse_arguments():
 def main():
     args = parse_arguments()
 
-    tokenized = GPTTokenizedData()
-    dataloaders = tokenized.dataloaders(args.batch_size)
+    tokenized = GPTTokenizedData(args.batch_size)
+    dataloaders = tokenized.dataloaders
 
     vocab_size = tokenized.vocab_size
     model = get_best_model_definition(vocab_size)
