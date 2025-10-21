@@ -1,0 +1,9 @@
+.python-version
+pyproject.toml
+uv.lock
+.venv/
+*.pt
+*.pth
+*.pkl
+.DS_Store
+*.zip
