@@ -16,6 +16,7 @@ cp train.py "$HW2_DIR/"
 cp util.py "$HW2_DIR/"
 cp requirements.txt "$HW2_DIR/"
 cp download_best_model.py "$HW2_DIR/"
+cp data.py "$HW2_DIR/"
 
 # Create the zip file from the temporary directory
 cd "$TEMP_DIR"
