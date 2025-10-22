@@ -62,7 +62,7 @@ def main():
 
     vocab_size = tokenized.vocab_size
     model = get_best_model_definition(vocab_size)
-    model.load_state_dict(torch.load(args.model_path, map_location='cpu'))
+    model.load_state_dict(torch.load(args.model_path, map_location='cpu', weights_only=False))
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     model.to(device)

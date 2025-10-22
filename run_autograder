@@ -21,6 +21,7 @@ uv python pin 3.12
 # stage supporting files into submission directory
 files_to_copy=(
     evaluation.py
+    evaluation_autograder.py
     util.py
     data.py
 )
