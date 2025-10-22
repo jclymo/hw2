@@ -1,6 +1,8 @@
 from torch import nn
 import torch
 import math
+from transformers import AutoModelForCausalLM
+from data import GPTTokenizedData
 
 class SinusoidalPositions(nn.Module):
     def __init__(self, max_seq_len, d_model):
@@ -37,9 +39,28 @@ this will include:
 """
 
 
+class MyTransformer(nn.Module):
+    def __init__(self, vocab_size, d_model=128, n_heads=4, n_layers=4):
+        super().__init__()
+        self.model = AutoModelForCausalLM.from_pretrained("gpt2")
+        self.model.transformer.h = self.model.transformer.h[:5]
+
+    def forward(self, x, mask):
+        return self.model(x, attention_mask=mask).logits
+
+
 def get_best_model_definition(vocab_size):
     """
     This is the model that will be used in the evaluation script
     Ensure it matches the .pt file provided there
     """
-    return # your model
+    return MyTransformer(vocab_size)
+
+
+if __name__ == "__main__":
+    tokenized = GPTTokenizedData()
+    vocab_size = tokenized.vocab_size
+    model = MyTransformer(vocab_size)
+    total_params = sum(p.numel() for p in model.parameters())
+    print(f"Total parameters: {total_params:,}")
+    # torch.save(model.state_dict(), "best_model.pt")

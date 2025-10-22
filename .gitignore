@@ -3,7 +3,7 @@ __pycache__/
 pyproject.toml
 uv.lock
 .venv/
-*.pt
+# *.pt
 *.pth
 *.pkl
 .DS_Store
