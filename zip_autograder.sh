@@ -6,6 +6,7 @@ run_autograder \
 setup.sh \
 data/ \
 evaluation.py \
+evaluation_autograder.py \
 util.py \
 data.py \
 main.py 
