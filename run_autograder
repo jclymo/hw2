@@ -1,0 +1,57 @@
+#!/bin/bash
+set -euo pipefail
+
+# Add uv to PATH
+export PATH="/root/.local/bin:$PATH"
+
+# Expected Gradescope directories
+ROOT_DIR="/autograder"
+SOURCE_DIR="$ROOT_DIR/source"
+SUBMISSION_DIR="$ROOT_DIR/submission"
+RESULTS_DIR="$ROOT_DIR/results"
+RESULTS_JSON="$RESULTS_DIR/results.json"
+
+# ================================================
+# Prepare submission directory
+# ================================================
+
+cd "$SUBMISSION_DIR"
+uv python pin 3.12
+
+# stage supporting files into submission directory
+files_to_copy=(
+    evaluation.py
+    util.py
+    data.py
+)
+
+# copy files to submission directory
+for f in "${files_to_copy[@]}"; do
+  if [ -f "$SOURCE_DIR/$f" ]; then
+    cp -f "$SOURCE_DIR/$f" ./
+  fi
+done
+
+# copy data/ directory
+if [ -d "$SOURCE_DIR/data" ]; then
+  cp -r "$SOURCE_DIR/data" ./
+fi
+
+# Verify dependencies are present
+if [ ! -f pyproject.toml ] && [ ! -f requirements.txt ]; then
+  echo '{"score": 0, "output": "Error: No dependencies file found. Please provide either `pyproject.toml` or `requirements.txt`."}' > "$RESULTS_JSON"
+  exit 1
+fi
+
+# Create virtual environment and install dependencies
+uv venv
+
+# Install dependencies (best-effort)
+if [ -f pyproject.toml ]; then
+  uv sync || true
+elif [ -f requirements.txt ]; then
+  uv pip install -r requirements.txt || true
+fi
+
+# Run the autograder
+uv run evaluation_autograder.py

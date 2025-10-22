@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# zip the autograder setup files
+zip -r autograder.zip \
+run_autograder \
+setup.sh \
+data/ \
+evaluation.py \
+util.py \
+data.py \
+main.py 
