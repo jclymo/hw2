@@ -54,5 +54,11 @@ elif [ -f requirements.txt ]; then
   uv pip install -r requirements.txt || true
 fi
 
+# download best model
+if ! uv run download_best_model.py; then
+  echo '{"score": 0, "output": "Error: Failed to download best_model.pt. Please check your download_best_model.py file and ensure the Google Drive file ID is correct."}' > "$RESULTS_JSON"
+  exit 1
+fi
+
 # Run the autograder
 uv run evaluation_autograder.py

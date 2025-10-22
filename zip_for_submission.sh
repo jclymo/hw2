@@ -6,9 +6,9 @@
 
 # If you have additional files, you need to add them to this script
 if [ -f pyproject.toml ]; then
-  zip -r hw2_submission.zip main.py model.py train.py best_model.pt pyproject.toml hw2_report.pdf
+  zip -r hw2_submission.zip main.py model.py train.py download_best_model.py pyproject.toml hw2_report.pdf
 elif [ -f requirements.txt ]; then
-  zip -r hw2_submission.zip main.py model.py train.py best_model.pt requirements.txt hw2_report.pdf
+  zip -r hw2_submission.zip main.py model.py train.py download_best_model.py requirements.txt hw2_report.pdf
 else
   echo "Error: No dependencies file found. Please provide either \`pyproject.toml\` or \`requirements.txt\`." >&2
   exit 1
